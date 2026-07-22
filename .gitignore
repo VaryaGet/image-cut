@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.spec
+build/
+dist/
+*.egg-info/
+.eggs/
+*.pyd
+.cache/
+u2net.onnx
+.u2net/
+*.log
+Images/
+Images_processed/
