@@ -125,3 +125,43 @@ class AppSettings:
     def preserve_structure(self, value: bool) -> None:
         """Set the 'preserve structure' default state."""
         self._settings.setValue('preserve_structure', value)
+
+    @property
+    def api_port(self) -> int:
+        """Get the API server port (default 8080)."""
+        return self._settings.value('api_port', 8080, int)
+
+    @api_port.setter
+    def api_port(self, value: int) -> None:
+        """Set the API server port."""
+        self._settings.setValue('api_port', value)
+
+    @property
+    def api_host(self) -> str:
+        """Get the API server host (default 127.0.0.1)."""
+        return self._settings.value('api_host', '127.0.0.1', str)
+
+    @api_host.setter
+    def api_host(self, value: str) -> None:
+        """Set the API server host."""
+        self._settings.setValue('api_host', value)
+
+    @property
+    def api_key(self) -> str:
+        """Get the API key for authentication (empty = no auth)."""
+        return self._settings.value('api_key', '', str)
+
+    @api_key.setter
+    def api_key(self, value: str) -> None:
+        """Set the API key for authentication."""
+        self._settings.setValue('api_key', value)
+
+    @property
+    def api_enabled(self) -> bool:
+        """Get whether the API server should auto-start."""
+        return self._settings.value('api_enabled', True) in (True, 'true', 'True')
+
+    @api_enabled.setter
+    def api_enabled(self, value: bool) -> None:
+        """Set whether the API server should auto-start."""
+        self._settings.setValue('api_enabled', value)

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import atexit
 import sys
 from pathlib import Path
 
@@ -32,12 +33,38 @@ def main() -> None:
     app.setApplicationVersion('1.0.0')
     app.setOrganizationName('GovnyakHelper')
 
+    from settings.app_settings import AppSettings
+    settings = AppSettings()
+
+    if settings.api_enabled:
+        from api import start_api_server
+        host = settings.api_host
+        port = settings.api_port
+        key = settings.api_key
+        if key:
+            from api_server import set_api_key
+            set_api_key(key)
+        started = start_api_server(host, port)
+        if started:
+            print(f'API server started at http://{host}:{port}')
+            print(f'Swagger UI: http://{host}:{port}/docs')
+
+    def shutdown_api():
+        from api import stop_api_server
+        stop_api_server()
+
+    atexit.register(shutdown_api)
+
     window = MainWindow()
     window.show()
 
     preload_rembg()
 
-    sys.exit(app.exec())
+    exit_code = app.exec()
+
+    shutdown_api()
+
+    sys.exit(exit_code)
 
 
 if __name__ == '__main__':
